@@ -72,8 +72,8 @@ export default function SignInSide() {
 
     axios
       .post(
-        `http://auth-server-red.vercel.app
-/customer/Register`,
+        `https://auth-server-red.vercel.app/
+customer/Register`,
         userInfo
       )
       .then((response) => {

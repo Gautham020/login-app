@@ -73,7 +73,7 @@ export default function OtpVerification() {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        `http://auth-server-red.vercel.app
+        `https://auth-server-red.vercel.app
 /customer/otp`,
         { email }
       );
