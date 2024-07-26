@@ -51,6 +51,7 @@ export default function SignInSide({ setNav, state, setState }) {
   const handleChangeUserInfo = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -62,14 +63,11 @@ export default function SignInSide({ setNav, state, setState }) {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
+
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
     axios
-      .post(
-        `http://auth-server-red.vercel.app
-/customer/login`,
-        userInfo
-      )
+      .post(`https://auth-server-red.vercel.app//customer/login`, userInfo)
       .then(async (res) => {
         if (res.data.success) {
           setNav(true);
@@ -82,22 +80,18 @@ export default function SignInSide({ setNav, state, setState }) {
             title: res.data.message,
           });
         } else {
-          if (res.data.errorType === "password") {
-            Toast.fire({
-              icon: "error",
-              title: res.data.message,
-            });
-          } else {
-            Toast.fire({
-              icon: "error",
-              title: res.data.message,
-            });
-          }
+          Toast.fire({
+            icon: "error",
+            title: res.data.message,
+          });
         }
       })
       .catch((error) => {
-        console.log(error);
-        toast.error("An error occurred. Please try again.");
+        console.error("Error occurred during login:", error);
+        Toast.fire({
+          icon: "error",
+          title: "An error occurred. Please try again.",
+        });
       });
   };
 
@@ -150,7 +144,7 @@ export default function SignInSide({ setNav, state, setState }) {
           justifyContent: "center",
           flexDirection: "column",
           padding: 3,
-          borderRadius: 3, // Rounded corners
+          borderRadius: 3,
           [defaultTheme.breakpoints.down("sm")]: {
             padding: 2,
             justifyContent: "center",
@@ -160,10 +154,10 @@ export default function SignInSide({ setNav, state, setState }) {
         <Box
           sx={{
             width: "100%",
-            maxWidth: 360, // Smaller max width
-            borderRadius: 2, // Additional rounded corners
-            p: 3, // Padding inside the form box
-            boxShadow: 3, // Elevation for the form box
+            maxWidth: 360,
+            borderRadius: 2,
+            p: 3,
+            boxShadow: 3,
             backgroundColor: "#ffffff",
           }}
         >
