@@ -37,6 +37,7 @@ export default function OtpVerification() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -49,7 +50,6 @@ export default function OtpVerification() {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      // Move to next input if current input is filled
       if (value && index < otp.length - 1) {
         document.getElementById(`otp-${index + 1}`).focus();
       }
@@ -68,86 +68,65 @@ export default function OtpVerification() {
     },
   });
 
-  const sendOtp = (e) => {
+  const sendOtp = async (e) => {
     e.preventDefault();
-    axios
-      .post(
+    setIsLoading(true);
+    try {
+      const res = await axios.post(
         `http://auth-server-red.vercel.app
 /customer/otp`,
         { email }
-      )
-      .then((res) => {
-        if (res.data.success) {
-          setIsOtpSent(true);
-          Toast.fire({
-            icon: "success",
-            title: res.data.message,
-          });
-        } else {
-          Toast.fire({
-            icon: "error",
-            title: res.data.message,
-          });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "An error occurred. Please try again.",
-        });
+      );
+      if (res.data.success) {
+        setIsOtpSent(true);
+        Toast.fire({ icon: "success", title: res.data.message });
+      } else {
+        Toast.fire({ icon: "error", title: res.data.message });
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      Toast.fire({
+        icon: "error",
+        title: "An error occurred. Please try again.",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const verifyOtp = (e) => {
+  const verifyOtp = async (e) => {
     e.preventDefault();
-    const otpString = otp.join(""); // Join OTP digits to form a string
-
-    // Check if OTP is fully entered
+    const otpString = otp.join("");
     if (otpString.length < 4) {
-      Toast.fire({
-        icon: "warning",
-        title: "Please enter the full OTP.",
-      });
+      Toast.fire({ icon: "warning", title: "Please enter the full OTP." });
       return;
     }
-
-    axios
-      .post(
-        `http://auth-server-red.vercel.app
-/customer/verifyotp`,
+    setIsLoading(true);
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/customer/verifyotp`,
         {
           otp: otpString,
           email,
         }
-      )
-      .then((res) => {
-        if (res.data.success) {
-          console.log("Response Data:", res.data); // Debugging line
-          localStorage.setItem("user", JSON.stringify(res.data.loggedInUser));
-          localStorage.setItem("Token", JSON.stringify(res.data.authToken)); // Ensure this is correct
-          navigate("/"); // Redirect to home or another page
-          Toast.fire({
-            icon: "success",
-            title: res.data.message,
-          });
-        } else {
-          Toast.fire({
-            icon: "error",
-            title: res.data.message,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "Error occurred during OTP verification:",
-          error.response || error.message || error
-        );
-        Toast.fire({
-          icon: "error",
-          title: "An error occurred. Please try again.",
-        });
+      );
+      if (res.data.success) {
+        localStorage.setItem("user", JSON.stringify(res.data.loggedInUser));
+        localStorage.setItem("Token", JSON.stringify(res.data.authToken));
+        navigate("/");
+        Toast.fire({ icon: "success", title: res.data.message });
+      } else {
+        Toast.fire({ icon: "error", title: res.data.message });
+      }
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+      Toast.fire({
+        icon: "error",
+        title: "An error occurred. Please try again.",
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const Font = {
@@ -235,7 +214,7 @@ export default function OtpVerification() {
             InputProps={{ readOnly: isOtpSent }}
             sx={{ mb: 2 }}
           />
-          {isOtpSent ? (
+          {isOtpSent && (
             <Grid container spacing={1} justifyContent="center">
               {otp.map((digit, index) => (
                 <Grid item key={index}>
@@ -254,7 +233,7 @@ export default function OtpVerification() {
                 </Grid>
               ))}
             </Grid>
-          ) : null}
+          )}
 
           <Button
             onClick={isOtpSent ? verifyOtp : sendOtp}
@@ -272,6 +251,7 @@ export default function OtpVerification() {
                 color: "#FFFFFF",
               },
             }}
+            disabled={isLoading}
           >
             {isOtpSent ? "Verify OTP" : "Send OTP"}
           </Button>
