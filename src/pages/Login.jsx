@@ -67,7 +67,7 @@ export default function SignInSide({ setNav, state, setState }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`https://auth-server-red.vercel.app//customer/login`, userInfo)
+      .post(`https://auth-server-red.vercel.app/customer/login`, userInfo)
       .then(async (res) => {
         if (res.data.success) {
           setNav(true);
