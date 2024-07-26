@@ -71,7 +71,11 @@ export default function SignInSide() {
     }
 
     axios
-      .post(`http://localhost:4000/customer/register`, userInfo)
+      .post(
+        `http://auth-server-red.vercel.app
+/customer/Register`,
+        userInfo
+      )
       .then((response) => {
         if (response.data.success) {
           navigate("/");

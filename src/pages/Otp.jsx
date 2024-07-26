@@ -71,7 +71,11 @@ export default function OtpVerification() {
   const sendOtp = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/customer/otp`, { email })
+      .post(
+        `http://auth-server-red.vercel.app
+/customer/otp`,
+        { email }
+      )
       .then((res) => {
         if (res.data.success) {
           setIsOtpSent(true);
@@ -109,10 +113,14 @@ export default function OtpVerification() {
     }
 
     axios
-      .post(`http://localhost:4000/customer/verifyotp`, {
-        otp: otpString,
-        email,
-      })
+      .post(
+        `http://auth-server-red.vercel.app
+/customer/verifyotp`,
+        {
+          otp: otpString,
+          email,
+        }
+      )
       .then((res) => {
         if (res.data.success) {
           console.log("Response Data:", res.data); // Debugging line
