@@ -73,7 +73,7 @@ export default function OtpVerification() {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        `https://auth-server-dusky.vercel.app/
+        `https://server-mu-gold.vercel.app/
 customer/otp`,
         { email }
       );
@@ -104,7 +104,7 @@ customer/otp`,
     setIsLoading(true);
     try {
       const res = await axios.post(
-        `https://auth-server-dusky.vercel.app/customer/verifyotp`,
+        `https://server-mu-gold.vercel.app/customer/verifyotp`,
         {
           otp: otpString,
           email,
