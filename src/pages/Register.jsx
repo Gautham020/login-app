@@ -74,7 +74,7 @@ export default function SignInSide() {
         `https://auth-server-dusky.vercel.app/customer/register`,
         userInfo,
         {
-          timeout: 10000, // Set timeout to 5 seconds
+          timeout: 20000, // Set timeout to 5 seconds
         }
       )
       .then((response) => {
