@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { toast } from "react-toastify";
 import img1 from "../Images/sign-up.jpg";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -72,9 +71,11 @@ export default function SignInSide() {
 
     axios
       .post(
-        `https://auth-server-dusky.vercel.app/
-customer/register`,
-        userInfo
+        `https://auth-server-dusky.vercel.app/customer/register`,
+        userInfo,
+        {
+          timeout: 5000, // Set timeout to 5 seconds
+        }
       )
       .then((response) => {
         if (response.data.success) {
@@ -83,19 +84,40 @@ customer/register`,
             icon: "success",
             title: response.data.message,
           });
-          // to
-          // toast.success(response.data.message);
         } else {
           Toast.fire({
             icon: "error",
             title: response.data.message,
           });
-          // toast.error(response.data.message);
         }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("An error occurred. Please try again.");
+        if (error.response) {
+          // Server responded with a status other than 200 range
+          Toast.fire({
+            icon: "error",
+            title: error.response.data.message || "An error occurred",
+          });
+        } else if (error.request) {
+          // Request was made but no response received
+          Toast.fire({
+            icon: "error",
+            title: "Network Error. Please try again later.",
+          });
+        } else if (error.code === "ECONNABORTED") {
+          // Timeout error
+          Toast.fire({
+            icon: "error",
+            title: "Request timed out. Please try again.",
+          });
+        } else {
+          // Something else happened while setting up the request
+          Toast.fire({
+            icon: "error",
+            title: "An error occurred. Please try again.",
+          });
+        }
       });
   };
 
