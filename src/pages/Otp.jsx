@@ -104,7 +104,7 @@ customer/otp`,
     setIsLoading(true);
     try {
       const res = await axios.post(
-        `https://server-mu-gold.vercel.app/customer/verifyotp`,
+        `https://auth-server-dusky.vercel.app/customer/verifyotp`,
         {
           otp: otpString,
           email,
