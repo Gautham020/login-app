@@ -71,7 +71,7 @@ export default function SignInSide() {
 
     axios
       .post(
-        `https://server-mu-gold.vercel.app/customer/register`,
+        `https://auth-server-dusky.vercel.app/customer/register`,
         userInfo,
         {
           timeout: 20000, // Set timeout to 5 seconds
