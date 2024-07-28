@@ -30,10 +30,21 @@ export default function SignInSide() {
   const [errors, setErrors] = React.useState({});
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [isOtpSent, setIsOtpSent] = React.useState(false);
+  const [otp, setOtp] = React.useState(Array(4).fill(""));
 
   const handleChangeUserInfo = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const handleChangeOtp = (e, index) => {
+    const { value } = e.target;
+    if (/^[0-9]$/.test(value) || value === "") {
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+    }
   };
 
   const validateFields = () => {
@@ -61,7 +72,7 @@ export default function SignInSide() {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     const newErrors = validateFields();
     if (Object.keys(newErrors).length > 0) {
@@ -70,19 +81,13 @@ export default function SignInSide() {
     }
 
     axios
-      .post(
-        `https://auth-server-dusky.vercel.app/customer/register`,
-        userInfo,
-        {
-          timeout: 10000, // Set timeout to 5 seconds
-        }
-      )
+      .post(`https://auth-server-dusky.vercel.app/customer/register`, userInfo)
       .then((response) => {
         if (response.data.success) {
-          navigate("/");
+          setIsOtpSent(true);
           Toast.fire({
             icon: "success",
-            title: response.data.message,
+            title: "OTP sent to your email",
           });
         } else {
           Toast.fire({
@@ -93,31 +98,48 @@ export default function SignInSide() {
       })
       .catch((error) => {
         console.error(error);
-        if (error.response) {
-          // Server responded with a status other than 200 range
+        Toast.fire({
+          icon: "error",
+          title: error.response?.data?.message || "An error occurred",
+        });
+      });
+  };
+
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    axios
+      .post(`https://auth-server-dusky.vercel.app/customer/verifyotp`, {
+        email: userInfo.email,
+        otp: otp.join(""),
+      })
+      .then((response) => {
+        if (response.data.success) {
+          localStorage.setItem(
+            "user",
+            JSON.stringify(response.data.loggedInUser)
+          );
+          localStorage.setItem(
+            "Token",
+            JSON.stringify(response.data.authToken)
+          );
+          navigate("/");
           Toast.fire({
-            icon: "error",
-            title: error.response.data.message || "An error occurred",
-          });
-        } else if (error.request) {
-          // Request was made but no response received
-          Toast.fire({
-            icon: "error",
-            title: "Network Error. Please try again later.",
-          });
-        } else if (error.code === "ECONNABORTED") {
-          // Timeout error
-          Toast.fire({
-            icon: "error",
-            title: "Request timed out. Please try again.",
+            icon: "success",
+            title: "Registration successful!",
           });
         } else {
-          // Something else happened while setting up the request
           Toast.fire({
             icon: "error",
-            title: "An error occurred. Please try again.",
+            title: response.data.message,
           });
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        Toast.fire({
+          icon: "error",
+          title: error.response?.data?.message || "An error occurred",
+        });
       });
   };
 
@@ -174,115 +196,167 @@ export default function SignInSide() {
       >
         <Box sx={{ width: "100%", maxWidth: 400 }}>
           <Typography component="h1" variant="h5" sx={Font}>
-            Register
+            {isOtpSent ? "Verify OTP" : "Register"}
           </Typography>
-          <TextField
-            onChange={handleChangeUserInfo}
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="name"
-            autoFocus
-            error={!!errors.name}
-            helperText={errors.name}
-          />
-          <TextField
-            onChange={handleChangeUserInfo}
-            margin="normal"
-            required
-            fullWidth
-            id="phone"
-            label="Phone Number"
-            name="phone"
-            autoComplete="phone"
-            error={!!errors.phone}
-            helperText={errors.phone}
-          />
-          <TextField
-            onChange={handleChangeUserInfo}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            error={!!errors.email}
-            helperText={errors.email}
-          />
-          <TextField
-            onChange={handleChangeUserInfo}
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            autoComplete="new-password"
-            error={!!errors.password}
-            helperText={errors.password}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={handleClickShowPassword} edge="end">
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            onChange={handleChangeUserInfo}
-            margin="normal"
-            required
-            fullWidth
-            id="confirmPassword"
-            label="Re-enter Password"
-            name="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            autoComplete="new-password"
-            error={!!errors.confirmPassword}
-            helperText={errors.confirmPassword}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowConfirmPassword}
-                    edge="end"
-                  >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            onClick={handleSubmit}
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              backgroundColor: "#3A244A",
-              mb: 2,
-              boxShadow: "5px 5px 250px #657E96",
-              borderRadius: "10px",
-              height: "50px",
-              "&:hover": {
-                backgroundColor: "#3A244A",
-                color: "#FFFFFF",
-              },
-            }}
-          >
-            Register
-          </Button>
-          <Grid container justifyContent="flex-end">
+          {!isOtpSent ? (
+            <>
+              <TextField
+                onChange={handleChangeUserInfo}
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
+                autoFocus
+                error={!!errors.name}
+                helperText={errors.name}
+              />
+              <TextField
+                onChange={handleChangeUserInfo}
+                margin="normal"
+                required
+                fullWidth
+                id="phone"
+                label="Phone Number"
+                name="phone"
+                autoComplete="phone"
+                error={!!errors.phone}
+                helperText={errors.phone}
+              />
+              <TextField
+                onChange={handleChangeUserInfo}
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                error={!!errors.email}
+                helperText={errors.email}
+              />
+              <TextField
+                onChange={handleChangeUserInfo}
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                error={!!errors.password}
+                helperText={errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={handleClickShowPassword} edge="end">
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                onChange={handleChangeUserInfo}
+                margin="normal"
+                required
+                fullWidth
+                id="confirmPassword"
+                label="Re-enter Password"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                autoComplete="new-password"
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowConfirmPassword}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                onClick={handleRegister}
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  backgroundColor: "#3A244A",
+                  mb: 2,
+                  boxShadow: "5px 5px 250px #657E96",
+                  borderRadius: "10px",
+                  height: "50px",
+                  "&:hover": {
+                    backgroundColor: "#3A244A",
+                    color: "#FFFFFF",
+                  },
+                }}
+              >
+                Register
+              </Button>
+            </>
+          ) : (
+            <>
+              <TextField
+                disabled
+                value={userInfo.email}
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+              />
+              <Box display="flex" justifyContent="space-between">
+                {otp.map((digit, index) => (
+                  <TextField
+                    key={index}
+                    onChange={(e) => handleChangeOtp(e, index)}
+                    margin="normal"
+                    required
+                    sx={{ width: "20%" }}
+                    inputProps={{ maxLength: 1 }}
+                    value={digit}
+                  />
+                ))}
+              </Box>
+              <Button
+                onClick={handleVerifyOtp}
+                fullWidth
+                variant="contained"
+                sx={{
+                  mt: 3,
+                  backgroundColor: "#3A244A",
+                  mb: 2,
+                  boxShadow: "5px 5px 250px #657E96",
+                  borderRadius: "10px",
+                  height: "50px",
+                  "&:hover": {
+                    backgroundColor: "#3A244A",
+                    color: "#FFFFFF",
+                  },
+                }}
+              >
+                Verify OTP
+              </Button>
+            </>
+          )}
+          <Grid container>
             <Grid item>
-              <Link to="/login" variant="body2">
-                Already have an account? Sign In
+              <Link to="/" variant="body2" style={{ textDecoration: "none" }}>
+                {"Already have an account? Login"}
               </Link>
             </Grid>
           </Grid>

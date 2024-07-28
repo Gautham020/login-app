@@ -39,10 +39,8 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide({ setNav, state, setState }) {
-  useEffect(() => {
-    setNav(false);
-  }, []);
+export default function SignInSide({ state, setState }) {
+  useEffect(() => {}, []);
 
   let navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
@@ -70,7 +68,6 @@ export default function SignInSide({ setNav, state, setState }) {
       .post(`https://auth-server-dusky.vercel.app/customer/login`, userInfo)
       .then(async (res) => {
         if (res.data.success) {
-          setNav(true);
           setState(!state);
           localStorage.setItem("user", JSON.stringify(res.data.loggedInUser));
           localStorage.setItem("Token", JSON.stringify(res.data.authToken));
@@ -238,13 +235,7 @@ export default function SignInSide({ setNav, state, setState }) {
               Sign Up
             </Button>
           </Link>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link to="/otp" variant="body2">
-                Forgot Password
-              </Link>
-            </Grid>
-          </Grid>
+         
         </Box>
       </Grid>
     </Grid>
