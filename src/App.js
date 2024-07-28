@@ -4,13 +4,10 @@ import { ToastContainer } from "react-toastify";
 import Loader from "./components/Loader/Loader";
 import NotFound from "./pages/404";
 import Welcome from "./pages/Welcome";
-import Register from "./pages/Register";
-// import EnterEmail from "./pages/EmailEnter";
+const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
-const Otp = lazy(() => import("./pages/Otp"));
 
 function App() {
-  const [nav, setNav] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [state, setState] = useState(true);
@@ -32,13 +29,9 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route
             path="/login"
-            element={
-              <Login state={state} setState={setState} setNav={setNav} />
-            }
+            element={<Login state={state} setState={setState} />}
           />
           <Route path="/register" element={<Register />} />
-          <Route path="/otp" element={<Otp />} />
-          {/* <Route path="/otp" element={<EnterEmail />} /> */}
           <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
