@@ -1,6 +1,6 @@
 <h1 align="center" id="title">Login-Auth App</h1>
 
-<p align="center"><img src="https://login-app-api.vercel.app/signin.png" alt="project-image"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/signin.png" alt="project-image"></p>
 
 <p id="description">This project is a web application designed with a modern and secure user authentication system. The frontend is built using React and styled with the Material-UI (MUI) framework ensuring a clean responsive and visually appealing user interface. Key Features: Registration with OTP Verification: Users can register by providing their email address which is verified through a One-Time Password (OTP) sent to their email. This ensures that only valid email addresses are registered in the system. Sign-In with Secure Authentication: The application employs JSON Web Tokens (JWT) for secure authentication. Upon successful login a JWT is issued allowing users to access protected routes and features within the application. This method provides a secure and scalable way to manage user sessions. Hosting: The frontend of the application is hosted on Vercel providing a fast reliable and scalable platform for deployment. Vercel also ensures continuous integration and delivery making it easier to maintain and update the application.</p>
 
@@ -12,9 +12,9 @@
 
 <img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/signin.png" alt="project-screenshot" width="300" height="200/">
 
-<img src="https://login-app-api.vercel.app/signup.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/signup.png" alt="project-screenshot" width="300" height="200/">
 
-<img src="https://login-app-api.vercel.app/otp.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/otp.png" alt="project-screenshot" width="300" height="200/">
 
   
   
