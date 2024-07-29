@@ -15,6 +15,7 @@
 <img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/signup.png" alt="project-screenshot" width="300" height="200/">
 
 <img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/otp.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/email.png" alt="project-screenshot" width="300" height="200/">
 
   
   
