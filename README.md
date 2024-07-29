@@ -27,6 +27,12 @@ Here're some of the project's best features:
 *   Secure Sign-In with JWT Authentication: After successful registration users can sign in using their credentials. The application uses JSON Web Tokens (JWT) for authentication ensuring that user sessions are secure and tamper-proof. JWT tokens are stored securely and used for accessing protected routes within the application.
 *   Responsive and User-Friendly Interface: The frontend is designed with Material-UI (MUI) providing a consistent and aesthetically pleasing user interface. The application is fully responsive ensuring a seamless experience across different devices including desktops tablets and smartphones.
 *   Scalable Hosting on Vercel: The application is hosted on Vercel which provides a scalable and reliable hosting environment. Vercel offers features like automatic scaling continuous deployment and global CDN ensuring optimal performance and uptime.
+*   Email Service Features:Easily send emails using various transport services, including Gmail, Outlook, Yahoo, and more.
+Authentication Support. Securely authenticate using your email credentials or app passwords.
+Plain Text & HTML Content. Support for both plain text and HTML email bodies, allowing for rich-text formatting and design.
+Error Handling. Includes comprehensive error handling to manage and log any issues that occur during the email sending process.
+Environment Variable Support. Utilizes environment variables to securely manage email credentials and other sensitive data.
+Customizable Email Options. Configure sender address, recipient addresses, subject lines, and email content as needed.
 
 <h2>🛠️ Installation Steps:</h2>
 
