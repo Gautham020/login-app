@@ -10,7 +10,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://login-app-api.vercel.app/signin.png" alt="project-screenshot" width="300" height="200/">
+<img src="https://raw.githubusercontent.com/Gautham020/login-app/master/public/signin.png" alt="project-screenshot" width="300" height="200/">
 
 <img src="https://login-app-api.vercel.app/signup.png" alt="project-screenshot" width="300" height="200/">
 
