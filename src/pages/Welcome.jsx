@@ -1,40 +1,14 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import img1 from "../Images/fig1.png";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const defaultTheme = createTheme();
 
@@ -61,8 +35,11 @@ export default function Welcome() {
     fontFamily: "Sans serif",
     fontStyle: "normal",
     fontWeight: "1000",
-    fontSize: "20px",
-    lineHeight: "21px",
+    fontSize: {
+      xs: "22px", // Font size for mobile screens
+      sm: "24px", // Font size for larger screens
+    },
+    lineHeight: "28px",
     color: "#3A244A",
   };
 
@@ -70,7 +47,10 @@ export default function Welcome() {
     fontFamily: "Sans serif",
     fontStyle: "normal",
     fontWeight: "500",
-    fontSize: "16px",
+    fontSize: {
+      xs: "14px", // Font size for mobile screens
+      sm: "16px", // Font size for larger screens
+    },
     lineHeight: "20px",
     color: "#6B4F7C",
     marginTop: "10px",
@@ -78,14 +58,14 @@ export default function Welcome() {
   };
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
+    <Grid container component="main" sx={{ height: "100vh", overflow: "auto" }}>
       <CssBaseline />
       <Grid
         item
-        xs={false}
-        sm={4}
-        md={7}
+        xs={12}
+        md={6}
         sx={{
+          height: { xs: "30vh", md: "100vh" }, // Adjust height for mobile and desktop
           backgroundImage: `url(${img1})`,
           backgroundRepeat: "no-repeat",
           backgroundColor: (t) =>
@@ -99,32 +79,30 @@ export default function Welcome() {
       <Grid
         item
         xs={12}
-        sm={8}
-        md={5}
+        md={6}
         component={Paper}
         elevation={6}
         square
         sx={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          flexDirection: "column",
-          padding: 3,
-          borderRadius: 3,
-          [defaultTheme.breakpoints.down("sm")]: {
-            padding: 2,
-          },
+          padding: { xs: 2, sm: 3, md: 5 },
+          borderRadius: { xs: 0, md: 3 }, // Border radius adjustments for mobile and desktop
+          marginTop: { xs: -10, md: 0 }, // Adjust margin-top for mobile and reset for desktop
+          backgroundColor: "#ffffff",
+          textAlign: "center",
         }}
       >
         <Box
           sx={{
             width: "100%",
-            maxWidth: 360,
+            maxWidth: { xs: 320, sm: 360, md: 500 }, // Adjust max-width for different screen sizes
             borderRadius: 2,
-            p: 3,
+            p: { xs: 3, md: 5 }, // Adjust padding for mobile and desktop
             boxShadow: 3,
             backgroundColor: "#ffffff",
-            textAlign: "center",
           }}
         >
           <Typography component="h1" variant="h4" sx={Font}>

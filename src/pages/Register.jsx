@@ -33,6 +33,14 @@ export default function SignInSide() {
   const [isOtpSent, setIsOtpSent] = React.useState(false);
   const [otp, setOtp] = React.useState(Array(4).fill(""));
 
+  // Define the refs at the top level of the component
+  const otpRefs = React.useRef([]);
+  if (otpRefs.current.length === 0) {
+    otpRefs.current = Array(4)
+      .fill()
+      .map(() => React.createRef());
+  }
+
   const handleChangeUserInfo = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
@@ -44,6 +52,15 @@ export default function SignInSide() {
       const newOtp = [...otp];
       newOtp[index] = value;
       setOtp(newOtp);
+
+      // Move to the next input if value is entered
+      if (value && index < otp.length - 1) {
+        otpRefs.current[index + 1].current.focus();
+      }
+      // Move to the previous input if value is deleted
+      if (!value && index > 0) {
+        otpRefs.current[index - 1].current.focus();
+      }
     }
   };
 
@@ -161,7 +178,7 @@ export default function SignInSide() {
       <CssBaseline />
       <Grid
         item
-        xs={false}
+        xs={12} // Full width on mobile
         sm={4}
         md={7}
         sx={{
@@ -173,6 +190,8 @@ export default function SignInSide() {
               : t.palette.grey[900],
           backgroundSize: "cover",
           backgroundPosition: "center",
+          height: { xs: "30vh", sm: "90vh" }, // Adjust height for mobile
+          width: { xs: "100%", sm: "auto" }, // Full width on mobile
         }}
       />
       <Grid
@@ -191,6 +210,7 @@ export default function SignInSide() {
           padding: 3,
           [defaultTheme.breakpoints.down("sm")]: {
             padding: 2,
+            marginTop: 2, // Add margin for spacing
           },
         }}
       >
@@ -265,7 +285,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="confirmPassword"
-                label="Re-enter Password"
+                label="Confirm Password"
                 name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 autoComplete="new-password"
@@ -290,62 +310,61 @@ export default function SignInSide() {
               />
               <Button
                 onClick={handleRegister}
+                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{
                   mt: 3,
-                  backgroundColor: "#3A244A",
                   mb: 2,
-                  boxShadow: "5px 5px 250px #657E96",
-                  borderRadius: "10px",
-                  height: "50px",
+                  backgroundColor: "#3A244A",
                   "&:hover": {
                     backgroundColor: "#3A244A",
-                    color: "#FFFFFF",
                   },
                 }}
               >
-                Register
+                Send OTP
               </Button>
             </>
           ) : (
             <>
-              <TextField
-                disabled
-                value={userInfo.email}
-                margin="normal"
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-              />
-              <Box display="flex" justifyContent="space-between">
-                {otp.map((digit, index) => (
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                component="div"
+                sx={{ textAlign: "center", mb: 2 }}
+              >
+                Please enter the OTP sent to your email.
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                {otp.map((_, index) => (
                   <TextField
                     key={index}
+                    value={otp[index]}
                     onChange={(e) => handleChangeOtp(e, index)}
-                    margin="normal"
-                    required
-                    sx={{ width: "20%" }}
-                    inputProps={{ maxLength: 1 }}
-                    value={digit}
+                    inputProps={{
+                      maxLength: 1,
+                      style: {
+                        width: "2rem",
+                        height: "2.5rem",
+                        fontSize: "1.5rem",
+                        textAlign: "center",
+                      },
+                    }}
+                    ref={otpRefs.current[index]}
                   />
                 ))}
               </Box>
               <Button
                 onClick={handleVerifyOtp}
+                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{
                   mt: 3,
-                  backgroundColor: "#3A244A",
                   mb: 2,
-                  boxShadow: "5px 5px 250px #657E96",
-                  borderRadius: "10px",
-                  height: "50px",
+                  backgroundColor: "#3A244A",
                   "&:hover": {
                     backgroundColor: "#3A244A",
-                    color: "#FFFFFF",
                   },
                 }}
               >
@@ -355,8 +374,8 @@ export default function SignInSide() {
           )}
           <Grid container>
             <Grid item>
-              <Link to="/" variant="body2" style={{ textDecoration: "none" }}>
-                {"Already have an account? Login"}
+              <Link to="/login" variant="body2">
+                {"Already have an account? Sign in"}
               </Link>
             </Grid>
           </Grid>
