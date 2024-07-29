@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+<h1 align="center" id="title">Login-Auth App</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center"><img src="https://login-app-api.vercel.app/signin.png" alt="project-image"></p>
 
-## Available Scripts
+<p id="description">This project is a web application designed with a modern and secure user authentication system. The frontend is built using React and styled with the Material-UI (MUI) framework ensuring a clean responsive and visually appealing user interface. Key Features: Registration with OTP Verification: Users can register by providing their email address which is verified through a One-Time Password (OTP) sent to their email. This ensures that only valid email addresses are registered in the system. Sign-In with Secure Authentication: The application employs JSON Web Tokens (JWT) for secure authentication. Upon successful login a JWT is issued allowing users to access protected routes and features within the application. This method provides a secure and scalable way to manage user sessions. Hosting: The frontend of the application is hosted on Vercel providing a fast reliable and scalable platform for deployment. Vercel also ensures continuous integration and delivery making it easier to maintain and update the application.</p>
 
-In the project directory, you can run:
+<h2>🚀 Demo</h2>
 
-### `npm start`
+[https://login-app-api.vercel.app](https://login-app-api.vercel.app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<h2>Project Screenshots:</h2>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<img src="https://login-app-api.vercel.app/signin.png" alt="project-screenshot" width="300" height="200/">
 
-### `npm test`
+<img src="https://login-app-api.vercel.app/signup.png" alt="project-screenshot" width="300" height="200/">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<img src="https://login-app-api.vercel.app/otp.png" alt="project-screenshot" width="300" height="200/">
 
-### `npm run build`
+  
+  
+<h2>🧐 Features</h2>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Here're some of the project's best features:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+*   User Registration with OTP Verification: Users can register by entering their email address and other necessary details. An OTP is sent to the user's email for verification ensuring the authenticity of the provided email address. The OTP verification process adds a layer of security and helps prevent the use of invalid or fake email addresses.
+*   Secure Sign-In with JWT Authentication: After successful registration users can sign in using their credentials. The application uses JSON Web Tokens (JWT) for authentication ensuring that user sessions are secure and tamper-proof. JWT tokens are stored securely and used for accessing protected routes within the application.
+*   Responsive and User-Friendly Interface: The frontend is designed with Material-UI (MUI) providing a consistent and aesthetically pleasing user interface. The application is fully responsive ensuring a seamless experience across different devices including desktops tablets and smartphones.
+*   Scalable Hosting on Vercel: The application is hosted on Vercel which provides a scalable and reliable hosting environment. Vercel offers features like automatic scaling continuous deployment and global CDN ensuring optimal performance and uptime.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<h2>🛠️ Installation Steps:</h2>
 
-### `npm run eject`
+<p>1. If you haven't created your React app yet you can use create-react-app to set up a new project. Open your terminal and run:</p>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+npx create-react-app my-app
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<p>2. Navigate to Your Project Directory:</p>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+cd my-app
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<p>3. Install Dependencies:</p>
 
-## Learn More
+```
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<p>4. Start the Development Server:</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+npm start
+```
 
-### Code Splitting
+<h2>🍰 Contribution Guidelines:</h2>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Overall Project Management: Coordinated the integration of frontend and backend components ensuring seamless communication and functionality. Managed version control and collaboration using Git maintaining a clean and organized codebase.
 
-### Analyzing the Bundle Size
+  
+  
+<h2>💻 Built with</h2>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Technologies used in the project:
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+*   Frontend: React: A JavaScript library for building user interfaces. Material-UI (MUI): A popular React UI framework for building responsive and stylish components. Axios: A promise-based HTTP client for making API requests.
+*   Backend: Node.js: A JavaScript runtime built on Chrome's V8 JavaScript engine used for building scalable network applications. Express.js: A web application framework for Node.js used for building RESTful APIs. MongoDB: A NoSQL database used for storing application data. Mongoose: An ODM (Object Data Modeling) library for MongoDB and Node.js providing a schema-based solution for modeling application data. JWT (JSON Web Token): A standard for securely transmitting information between parties as a JSON object used for authentication and authorization.
+*   Hosting and Deployment: Vercel: A cloud platform for static sites and serverless functions used for hosting the frontend.
